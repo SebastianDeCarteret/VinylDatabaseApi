@@ -51,7 +51,7 @@ namespace VinylDatabaseApi.Models
                 return BadRequest();
             }
             _context.Update(vinyl);
-            int[] ids = [];
+            //int[] ids = [];
             // note: you can add a new track if the id is not specified
             vinyl.Tracks.ForEach(track => _context.Tracks.Update(track));
             //_context.Tracks.Entry(vinyl).CurrentValues.SetValues(vinyl.Tracks);
