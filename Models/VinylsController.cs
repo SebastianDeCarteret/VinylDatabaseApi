@@ -7,11 +7,11 @@ namespace VinylDatabaseApi.Models
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Vinyls1Controller : ControllerBase
+    public class VinylsController : ControllerBase
     {
         private readonly VinylDatabaseApiContext _context;
 
-        public Vinyls1Controller(VinylDatabaseApiContext context)
+        public VinylsController(VinylDatabaseApiContext context)
         {
             _context = context;
         }
@@ -50,8 +50,11 @@ namespace VinylDatabaseApi.Models
             {
                 return BadRequest();
             }
-
-            _context.Entry(vinyl).State = EntityState.Modified;
+            _context.Update(vinyl);
+            int[] ids = [];
+            // note: you can add a new track if the id is not specified
+            vinyl.Tracks.ForEach(track => _context.Tracks.Update(track));
+            //_context.Tracks.Entry(vinyl).CurrentValues.SetValues(vinyl.Tracks);
 
             try
             {

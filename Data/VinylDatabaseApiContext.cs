@@ -11,6 +11,7 @@ namespace VinylDatabaseApi.Data
         }
 
         public DbSet<Vinyl> Vinyl { get; set; } = default!;
+        public DbSet<Track> Tracks { get; set; } = default!;
     }
 }
 
