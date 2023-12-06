@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using NuGet.Versioning;
 using VinylDatabaseApi.Data;
 
 namespace VinylDatabaseApi.Models
@@ -18,57 +14,24 @@ namespace VinylDatabaseApi.Models
         public Vinyls1Controller(VinylDatabaseApiContext context)
         {
             _context = context;
-            //_context.Database.EnsureDeleted();
-            //_context.Database.EnsureCreated();
-            //_context.SaveChanges();
-            //_context.Add(new Vinyl
-            //{
-            //    Title = "Title",
-            //    Artist = "artist",
-            //    NumberOfLps = 10,
-            //    NumberOfTracks = 10,
-            //    Price = 10,
-            //    ReleaseDate = DateTime.Now,
-            //    ImageLink = "link",
-            //    Tracks = new List<Track>
-            //    {
-            //        new Track
-            //        {
-            //            Title = "track1",
-            //            Length = 3.45f,
-            //        }
-            //    }
-            //});
-            //_context.SaveChanges();]
-            //foreach (var item in SeedData.SeedDataList)
-            //{
-            //    _context.Vinyl.Add(item);
-            //    _context.SaveChanges();
-            //}
-
-            //foreach (var vinyl in _context.Vinyl)
-            //{
-            //    Console.WriteLine($"Vinyl: {vinyl.Title}");
-            //    foreach (var track in vinyl.Tracks)
-            //    {
-            //        Console.WriteLine($"Track: {track.Title}");
-            //        Console.WriteLine($"Track: {TimeFormatter(track.Length)}");
-            //    }
-            //}
         }
 
         // GET: api/Vinyls1
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vinyl>>> GetVinyl()
         {
-            return await _context.Vinyl.ToListAsync();
+            var vinyl = await _context.Vinyl
+            .Include(track => track.Tracks)
+            .ToListAsync();
+            return vinyl;
         }
 
         // GET: api/Vinyls1/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Vinyl>> GetVinyl(int id)
         {
-            var vinyl = await _context.Vinyl.FindAsync(id);
+            var _ = await _context.Vinyl.Include(track => track.Tracks).ToListAsync();
+            var vinyl = _.Find(x => x.Id == id);
 
             if (vinyl == null)
             {
@@ -83,7 +46,7 @@ namespace VinylDatabaseApi.Models
         [HttpPut("{id}")]
         public async Task<IActionResult> PutVinyl(int id, Vinyl vinyl)
         {
-            if (id != vinyl.VinylId)
+            if (id != vinyl.Id)
             {
                 return BadRequest();
             }
@@ -114,11 +77,10 @@ namespace VinylDatabaseApi.Models
         [HttpPost]
         public async Task<ActionResult<Vinyl>> PostVinyl(Vinyl vinyl)
         {
-            //vinyl.Tracks.AddRange(vinyl.Tracks);
-            //_context.Vinyl.Add(vinyl);
+            _context.Vinyl.Add(vinyl);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetVinyl", new { id = vinyl.VinylId }, vinyl);
+            return CreatedAtAction("GetVinyl", new { id = vinyl.Id }, vinyl);
         }
 
         // DELETE: api/Vinyls1/5
@@ -139,7 +101,7 @@ namespace VinylDatabaseApi.Models
 
         private bool VinylExists(int id)
         {
-            return _context.Vinyl.Any(e => e.VinylId == id);
+            return _context.Vinyl.Any(e => e.Id == id);
         }
     }
 }

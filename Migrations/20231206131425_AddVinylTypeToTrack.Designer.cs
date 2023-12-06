@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VinylDatabaseApi.Data;
 
@@ -11,9 +12,11 @@ using VinylDatabaseApi.Data;
 namespace VinylDatabaseApi.Migrations
 {
     [DbContext(typeof(VinylDatabaseApiContext))]
-    partial class VinylDatabaseApiContextModelSnapshot : ModelSnapshot
+    [Migration("20231206131425_AddVinylTypeToTrack")]
+    partial class AddVinylTypeToTrack
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,11 +89,13 @@ namespace VinylDatabaseApi.Migrations
 
             modelBuilder.Entity("VinylDatabaseApi.Models.Track", b =>
                 {
-                    b.HasOne("VinylDatabaseApi.Models.Vinyl", null)
+                    b.HasOne("VinylDatabaseApi.Models.Vinyl", "Vinyl")
                         .WithMany("Tracks")
                         .HasForeignKey("VinylId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Vinyl");
                 });
 
             modelBuilder.Entity("VinylDatabaseApi.Models.Vinyl", b =>

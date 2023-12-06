@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VinylDatabaseApi.Data;
 
@@ -11,9 +12,11 @@ using VinylDatabaseApi.Data;
 namespace VinylDatabaseApi.Migrations
 {
     [DbContext(typeof(VinylDatabaseApiContext))]
-    partial class VinylDatabaseApiContextModelSnapshot : ModelSnapshot
+    [Migration("20231206104644_UpdateTrackRemoveTypeRef")]
+    partial class UpdateTrackRemoveTypeRef
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,11 +27,11 @@ namespace VinylDatabaseApi.Migrations
 
             modelBuilder.Entity("VinylDatabaseApi.Models.Track", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TrackId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TrackId"));
 
                     b.Property<float>("Length")
                         .HasColumnType("real");
@@ -40,7 +43,7 @@ namespace VinylDatabaseApi.Migrations
                     b.Property<int>("VinylId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("TrackId");
 
                     b.HasIndex("VinylId");
 
@@ -49,11 +52,11 @@ namespace VinylDatabaseApi.Migrations
 
             modelBuilder.Entity("VinylDatabaseApi.Models.Vinyl", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("VinylId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VinylId"));
 
                     b.Property<string>("Artist")
                         .IsRequired()
@@ -79,7 +82,7 @@ namespace VinylDatabaseApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("VinylId");
 
                     b.ToTable("Vinyl");
                 });

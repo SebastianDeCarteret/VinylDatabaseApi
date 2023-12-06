@@ -1,10 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
-
-namespace VinylDatabaseApi.Models
+﻿namespace VinylDatabaseApi.Models
 {
     public class Vinyl
     {
-        public int VinylId { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Artist { get; set; }
         public int NumberOfLps { get; set; }
@@ -12,7 +10,6 @@ namespace VinylDatabaseApi.Models
         public float Price { get; set; }
         public DateTime ReleaseDate { get; set; }
         public string ImageLink { get; set; }
-        //public ICollection<Track> Tracks { get; } = new List<Track>();
         public List<Track> Tracks { get; set; }
     }
 }
