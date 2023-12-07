@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VinylDatabaseApi.Data;
 
@@ -11,9 +12,11 @@ using VinylDatabaseApi.Data;
 namespace VinylDatabaseApi.Migrations
 {
     [DbContext(typeof(VinylDatabaseApiContext))]
-    partial class VinylDatabaseApiContextModelSnapshot : ModelSnapshot
+    [Migration("20231207141231_AddNewModels")]
+    partial class AddNewModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,26 +155,16 @@ namespace VinylDatabaseApi.Migrations
             modelBuilder.Entity("VinylDatabaseApi.Models.Vinyl", b =>
                 {
                     b.HasOne("VinylDatabaseApi.Models.Artist", "Artist")
-                        .WithMany("Vinyls")
+                        .WithMany()
                         .HasForeignKey("ArtistId");
 
                     b.HasOne("VinylDatabaseApi.Models.Band", "Band")
-                        .WithMany("Vinyls")
+                        .WithMany()
                         .HasForeignKey("BandId");
 
                     b.Navigation("Artist");
 
                     b.Navigation("Band");
-                });
-
-            modelBuilder.Entity("VinylDatabaseApi.Models.Artist", b =>
-                {
-                    b.Navigation("Vinyls");
-                });
-
-            modelBuilder.Entity("VinylDatabaseApi.Models.Band", b =>
-                {
-                    b.Navigation("Vinyls");
                 });
 
             modelBuilder.Entity("VinylDatabaseApi.Models.Vinyl", b =>

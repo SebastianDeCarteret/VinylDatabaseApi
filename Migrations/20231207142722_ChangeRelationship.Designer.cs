@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VinylDatabaseApi.Data;
 
@@ -11,9 +12,11 @@ using VinylDatabaseApi.Data;
 namespace VinylDatabaseApi.Migrations
 {
     [DbContext(typeof(VinylDatabaseApiContext))]
-    partial class VinylDatabaseApiContextModelSnapshot : ModelSnapshot
+    [Migration("20231207142722_ChangeRelationship")]
+    partial class ChangeRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

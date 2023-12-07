@@ -2,17 +2,18 @@
 
 namespace VinylDatabaseApi.Models
 {
-    public class Track
+    public class Band
     {
         public int Id { get; init; }
 
         [Required]
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        public float Length { get; set; }
+        public DateOnly FormedDate { get; set; }
 
+        //[Required]
         public int VinylId { get; init; }
-        public Vinyl? Vinyl { get; init; }
+        //public Vinyl Vinyl { get; init; }
     }
 }

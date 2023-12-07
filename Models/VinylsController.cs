@@ -16,12 +16,14 @@ namespace VinylDatabaseApi.Models
             _context = context;
         }
 
-        // GET: api/Vinyls1
+        // GET: api/Vinyls
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Vinyl>>> GetVinyl()
         {
             var vinyl = await _context.Vinyl
             .Include(track => track.Tracks)
+            .Include(band => band.Band)
+            .Include(artist => artist.Artist)
             .ToListAsync();
             return vinyl;
         }
@@ -39,6 +41,20 @@ namespace VinylDatabaseApi.Models
             }
 
             return vinyl;
+        }
+
+        [HttpGet("{id}/tracks")]
+        public async Task<ActionResult<List<Track>>> GetVinylTracks(int id)
+        {
+            var _ = await _context.Tracks.ToListAsync();
+            var tracks = _.FindAll(x => x.VinylId == id);
+
+            if (tracks == null)
+            {
+                return NotFound();
+            }
+
+            return tracks;
         }
 
         // PUT: api/Vinyls1/5
